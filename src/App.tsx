@@ -1,16 +1,21 @@
-import { useState } from "react";
-import logo from "./assets/logo.svg";
+import React from "react";
 import "./App.css";
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <>
+    <main>
+      <nav>
+        <ul>
+          <li>
+            <Link to={"/"}>Home</Link>
+          </li>
+        </ul>
+      </nav>
       <div>
-        <img src={logo} className="logo react" alt="Glacepedia logo" />
+        <Outlet />
       </div>
-      <h1>Glacepedia</h1>
-      <div className="card"></div>
-    </>
+    </main>
   );
 }
 
