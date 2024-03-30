@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
 import "./AddRecipe.scss";
 import { recipeSources } from "./recipeSources";
+import { Recipe } from "./Recipe";
 
 export default function AddRecipe() {
-  const [recipeName, setRecipeName] = useState("");
-  const [recipeSource, setRecipeSource] = useState(recipeSources[0]);
+  //add a Recipe state
+  const [recipe, setRecipe] = useState<Recipe>({
+    name: "",
+    source: recipeSources[0],
+    ingredients: [],
+  });
+
   const [ingredient, setIngredient] = useState("");
-  const [ingredients, setIngredients] = useState<string[]>([]);
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
   useEffect(() => {
-    setFormIsInvalid(recipeName.length === 0);
-  }, [recipeName]);
+    setFormIsInvalid(
+      recipe.name.length === 0 ||
+        recipe.ingredients.length === 0 ||
+        recipe.source.length === 0
+    );
+  }, [recipe]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Recipe Name:", recipeName);
-    console.log("Recipe Source:", recipeSource);
-    console.log("Ingredients:", ingredients.join(", "));
+    console.log("Recipe:", JSON.stringify(recipe));
   };
 
   function onNewIngredientText(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
       event.preventDefault();
-      setIngredients((prev) => [...prev, ingredient]);
+      setRecipe((prev) => ({
+        ...prev,
+        ingredients: [...prev.ingredients, ingredient],
+      }));
       setIngredient("");
     }
   }
@@ -37,8 +47,10 @@ export default function AddRecipe() {
           <input
             id="name"
             type="text"
-            value={recipeName}
-            onChange={(event) => setRecipeName(event.target.value)}
+            value={recipe.name}
+            onChange={(event) =>
+              setRecipe((prev) => ({ ...prev, name: event.target.value }))
+            }
           />
         </article>
 
@@ -46,8 +58,10 @@ export default function AddRecipe() {
           <label htmlFor="source">Source</label>
           <select
             id="source"
-            value={recipeSource}
-            onChange={(event) => setRecipeSource(event.target.value)}
+            value={recipe.source}
+            onChange={(event) =>
+              setRecipe((prev) => ({ ...prev, source: event.target.value }))
+            }
           >
             {recipeSources.map((source) => (
               <option key={source} value={source}>
@@ -62,6 +76,7 @@ export default function AddRecipe() {
 
           <input
             id="ingredient"
+            placeholder="Enter an ingredient"
             type="text"
             value={ingredient}
             onChange={(event) => setIngredient(event.target.value)}
@@ -71,9 +86,9 @@ export default function AddRecipe() {
 
         <article>
           <textarea
-            placeholder="Ingredients"
+            id="ingredients"
             readOnly={true}
-            value={ingredients.join("\n")}
+            value={recipe.ingredients.join("\n")}
           />
         </article>
 
