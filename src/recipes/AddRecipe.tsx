@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./AddRecipe.scss";
+import { recipeSources } from "./recipeSources";
 
 export default function AddRecipe() {
-  const recipeSources = ["Jeni's", "Ample Hill"];
   const [recipeName, setRecipeName] = useState("");
   const [recipeSource, setRecipeSource] = useState(recipeSources[0]);
+  const [ingredient, setIngredient] = useState("");
+  const [ingredients, setIngredients] = useState<string[]>([]);
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
   useEffect(() => {
@@ -15,7 +17,16 @@ export default function AddRecipe() {
     event.preventDefault();
     console.log("Recipe Name:", recipeName);
     console.log("Recipe Source:", recipeSource);
+    console.log("Ingredients:", ingredients.join(", "));
   };
+
+  function onNewIngredientText(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      setIngredients((prev) => [...prev, ingredient]);
+      setIngredient("");
+    }
+  }
 
   return (
     <div className="AddRecipe">
@@ -48,11 +59,22 @@ export default function AddRecipe() {
 
         <article>
           <label htmlFor="ingredient">Ingredients</label>
-          <input id="ingredient" type="text" />
+
+          <input
+            id="ingredient"
+            type="text"
+            value={ingredient}
+            onChange={(event) => setIngredient(event.target.value)}
+            onKeyDown={onNewIngredientText}
+          />
         </article>
 
         <article>
-          <textarea placeholder="Ingredients" readOnly={true} />
+          <textarea
+            placeholder="Ingredients"
+            readOnly={true}
+            value={ingredients.join("\n")}
+          />
         </article>
 
         <button type="submit" disabled={formIsInvalid}>
