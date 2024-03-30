@@ -1,17 +1,12 @@
 import React from "react";
 import "./App.css";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { NavBar } from "./navigation/NavBar";
 
 function App() {
   return (
     <main>
-      <nav>
-        <ul>
-          <li>
-            <Link to={"/"}>Home</Link>
-          </li>
-        </ul>
-      </nav>
+      <NavBar />
       <div>
         <Outlet />
       </div>
