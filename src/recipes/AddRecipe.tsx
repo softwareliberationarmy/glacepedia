@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AddRecipe.scss";
 import { recipeSources } from "./recipeSources";
-import { Recipe } from "./Recipe";
+import { Recipe, isValidRecipe } from "./Recipe";
 
 export default function AddRecipe() {
   //add a Recipe state
@@ -15,11 +15,7 @@ export default function AddRecipe() {
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
   useEffect(() => {
-    setFormIsInvalid(
-      recipe.name.length === 0 ||
-        recipe.ingredients.length === 0 ||
-        recipe.source.length === 0
-    );
+    setFormIsInvalid(isValidRecipe(recipe) == false);
   }, [recipe]);
 
   const handleSubmit = (event: React.FormEvent) => {
