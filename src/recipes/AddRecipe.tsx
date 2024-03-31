@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./AddRecipe.scss";
 import { recipeSources } from "./recipeSources";
-import { Recipe, isValidRecipe } from "./Recipe";
+import { Recipe, emptyRecipe, isValidRecipe } from "./Recipe";
 
 export default function AddRecipe() {
   //add a Recipe state
-  const [recipe, setRecipe] = useState<Recipe>({
-    name: "",
-    source: recipeSources[0],
-    ingredients: [],
-  });
+  const [recipe, setRecipe] = useState<Recipe>(emptyRecipe());
 
   const [ingredient, setIngredient] = useState("");
   const [formIsInvalid, setFormIsInvalid] = useState(true);
@@ -21,6 +17,7 @@ export default function AddRecipe() {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     console.log("Recipe:", JSON.stringify(recipe));
+    setRecipe(emptyRecipe());
   };
 
   function onNewIngredientText(event: React.KeyboardEvent<HTMLInputElement>) {

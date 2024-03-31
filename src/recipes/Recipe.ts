@@ -1,3 +1,5 @@
+import { recipeSources } from "./recipeSources";
+
 export type Recipe = {
   name: string;
   source: string;
@@ -10,4 +12,12 @@ export function isValidRecipe(recipe: Recipe): boolean {
     recipe.source.length > 0 &&
     recipe.ingredients.length > 0
   );
+}
+
+export function emptyRecipe(): Recipe {
+  return {
+    name: "",
+    source: recipeSources[0],
+    ingredients: [],
+  };
 }
