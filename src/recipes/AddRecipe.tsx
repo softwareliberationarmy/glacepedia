@@ -11,7 +11,7 @@ export default function AddRecipe() {
   const [formIsInvalid, setFormIsInvalid] = useState(true);
 
   useEffect(() => {
-    setFormIsInvalid(isValidRecipe(recipe) == false);
+    setFormIsInvalid(!isValidRecipe(recipe));
   }, [recipe]);
 
   const handleSubmit = (event: React.FormEvent) => {
