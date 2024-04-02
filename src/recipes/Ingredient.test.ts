@@ -3,37 +3,69 @@ import { parseIngredient } from "./Ingredient";
 
 describe("Ingredient tests", () => {
   describe("parseIngredient", () => {
-    it("should parse 2 eggs", () => {
-      expect(parseIngredient("2 eggs")).toEqual({
-        amount: 2,
-        unit: "none",
-        name: "eggs",
-      });
-    });
-
-    it("should parse 2 egg yolks", () => {
-        expect(parseIngredient("2 egg yolks")).toEqual({
+    const testIngredients = [
+      {
+        input: "2 eggs",
+        expected: {
+          amount: 2,
+          unit: "none",
+          name: "eggs",
+        },
+      },
+      {
+        input: "2 egg yolks",
+        expected: {
           amount: 2,
           unit: "none",
           name: "egg yolks",
-        });
-      });
-  
-      it("should parse 1 cup of sugar", () => {
-      expect(parseIngredient("1c sugar")).toEqual({
-        amount: 1,
-        unit: "cup",
-        name: "sugar",
-      });
-    });
+        },
+      },
+      {
+        input: "1c sugar",
+        expected: {
+          amount: 1,
+          unit: "cup",
+          name: "sugar",
+        },
+      },
+      {
+        input: "1c brown sugar",
+        expected: {
+          amount: 1,
+          unit: "cup",
+          name: "brown sugar",
+        },
+      },
+      {
+        input: ".75c brown sugar",
+        expected: {
+          amount: 0.75,
+          unit: "cup",
+          name: "brown sugar",
+        },
+      },
+      {
+        input: ".25t baking soda",
+        expected: {
+          amount: 0.25,
+          unit: "teaspoon",
+          name: "baking soda",
+        },
+      },
+      {
+        input: "1T vanilla",
+        expected: {
+          amount: 1,
+          unit: "tablespoon",
+          name: "vanilla",
+        },
+      },
+    ];
 
-    it("should parse 1 cup of brown sugar", () => {
-      expect(parseIngredient("1c brown sugar")).toEqual({
-        amount: 1,
-        unit: "cup",
-        name: "brown sugar",
+    it("should parse test ingredients", () => {
+      testIngredients.forEach((test) => {
+        expect(parseIngredient(test.input)).toEqual(test.expected);
       });
     });
   });
 });
-
