@@ -26,6 +26,12 @@ export function parseIngredient(input: string): Ingredient | undefined {
   return undefined;
 }
 
+export function toIngredientString(ingredient: Ingredient): string {
+  if (ingredient.unit === "none")
+    return `${ingredient.amount} ${ingredient.name}`;
+  return `${ingredient.amount}${getUnitString(ingredient.unit)} ${ingredient.name}`;
+}
+
 function tryParseQuantity(
   firstPart: string,
   secondPart: string
@@ -63,3 +69,17 @@ const units = new Map<string, Unit>([
 function getUnit(input: string) {
   return units.get(input);
 }
+
+function getUnitString(unit: Unit): string {
+  switch (unit) {
+    case "none":
+      return "";
+    case "cup":
+      return "c";
+    case "teaspoon":
+      return "t";
+    case "tablespoon":
+      return "T";
+  }
+}
+
