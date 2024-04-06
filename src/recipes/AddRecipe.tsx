@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AddRecipe.scss";
 import { recipeSources } from "./recipeSources";
 import { Recipe, emptyRecipe, isValidRecipe } from "./Recipe";
+import { parseIngredient, toIngredientString } from "./Ingredient";
 
 export default function AddRecipe() {
   //add a Recipe state
@@ -9,6 +10,7 @@ export default function AddRecipe() {
 
   const [ingredient, setIngredient] = useState("");
   const [formIsInvalid, setFormIsInvalid] = useState(true);
+  const [invalidIngredient, setInvalidIngredient] = useState(false);
 
   useEffect(() => {
     setFormIsInvalid(!isValidRecipe(recipe));
@@ -22,12 +24,18 @@ export default function AddRecipe() {
 
   function onNewIngredientText(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
+      setInvalidIngredient(false);
       event.preventDefault();
-      setRecipe((prev) => ({
-        ...prev,
-        ingredients: [...prev.ingredients, ingredient],
-      }));
-      setIngredient("");
+      const parsedIngredient = parseIngredient(ingredient);
+      if (parsedIngredient) {
+        setRecipe((prev) => ({
+          ...prev,
+          ingredients: [...prev.ingredients, parsedIngredient],
+        }));
+        ~setIngredient("");
+      } else {
+        setInvalidIngredient(true);
+      }
     }
   }
 
@@ -77,11 +85,16 @@ export default function AddRecipe() {
           />
         </article>
 
+        {invalidIngredient && (
+          <p className="error">Invalid ingredient. Please try again.</p>
+        )}
         <article>
           <textarea
             id="ingredients"
             readOnly={true}
-            value={recipe.ingredients.join("\n")}
+            value={recipe.ingredients
+              .map((i) => toIngredientString(i))
+              .join("\n")}
           />
         </article>
 

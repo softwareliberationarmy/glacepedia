@@ -28,7 +28,6 @@
     font-size: 32px;
   }
 
-
   textarea {
     font-size: 32px;
     width: 90%;
@@ -37,5 +36,10 @@
 
   button {
     background-color: seagreen;
+  }
+
+  .error {
+    color: red;
+    margin-top: 0px;
   }
 }

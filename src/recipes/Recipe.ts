@@ -1,9 +1,10 @@
+import { Ingredient } from "./Ingredient";
 import { recipeSources } from "./recipeSources";
 
 export type Recipe = {
   name: string;
   source: string;
-  ingredients: string[];
+  ingredients: Ingredient[];
 };
 
 export function isValidRecipe(recipe: Recipe): boolean {
