@@ -3,6 +3,7 @@ import "./AddRecipe.scss";
 import { recipeSources } from "./recipeSources";
 import { Recipe, emptyRecipe, isValidRecipe } from "./Recipe";
 import { parseIngredient, toIngredientString } from "./Ingredient";
+import { addRecipe } from "./recipeService";
 
 export default function AddRecipe() {
   const [recipe, setRecipe] = useState<Recipe>(emptyRecipe());
@@ -15,9 +16,9 @@ export default function AddRecipe() {
     setFormIsInvalid(!isValidRecipe(recipe));
   }, [recipe]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Recipe:", JSON.stringify(recipe));
+    await addRecipe(recipe);
     setRecipe(emptyRecipe());
   };
 
