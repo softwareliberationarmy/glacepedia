@@ -5,7 +5,6 @@ import { Recipe, emptyRecipe, isValidRecipe } from "./Recipe";
 import { parseIngredient, toIngredientString } from "./Ingredient";
 
 export default function AddRecipe() {
-  //add a Recipe state
   const [recipe, setRecipe] = useState<Recipe>(emptyRecipe());
 
   const [ingredient, setIngredient] = useState("");
@@ -74,7 +73,6 @@ export default function AddRecipe() {
 
         <article>
           <label htmlFor="ingredient">Ingredients</label>
-
           <input
             id="ingredient"
             placeholder="Enter an ingredient"
@@ -99,7 +97,7 @@ export default function AddRecipe() {
         </article>
 
         <button type="submit" disabled={formIsInvalid}>
-          Submit
+          Add Recipe
         </button>
       </form>
     </div>
